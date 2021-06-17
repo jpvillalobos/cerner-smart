@@ -6,18 +6,36 @@
      <script src='./lib/js/fhir-client-v0.1.12.js'></script>
  </head>
  <body>
+    <br><span id="name">Loading Patient Namr...</span></h1></br>
+    <br><span id="dob">Loading Patient DOB...</span></h1></br>
+    <br><span id="gender">Loading Patient Gender...</span></h1></br>
+    <br><span id="mrn">Loading Patient MRN...</span></h1></br>
+    <hr class="solid">
+    <button type="submit" onclick="UserAction()">Get Care Orchestator ID mappings</button>
     <br>
-    <span id="name">Loading Patient Namr...</span></h1>
-    </br><br>
-    <span id="dob">Loading Patient DOB...</span></h1>
-    </br><br>
-    <span id="gender">Loading Patient Gender...</span></h1>
-    </br><br>
-
-    <span id="mrn">Loading Patient MRN...</span></h1>
-    </br><br>
-    
+    <br><span id="fhir_emr">Patient's MRN on EMR FHIR server:</span></h1></br>
+    <br><span id="CO_id">Patient's ID on Care Orchestator:</span></h1></br>
+    <hr class="solid">
+    <button type="submit" onclick="UserAction()">Retrieve Care Orchestator Information</button>
+    <br>
+    <br>
+    <object data="your_url_to_pdf" type="application/pdf">
+        <iframe src="https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true#view=fit"></iframe>
+    </object>
     <script type="text/javascript">
+
+    function UserAction() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+             if (this.readyState == 4 && this.status == 200) {
+                 alert(this.responseText);
+             }
+        };
+        xhttp.open("POST", "Your Rest URL Here", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send("Your JSON Data Here");
+    }
+
         function getPatientName(pt) {
             if (pt.name) {
                 var names = pt.name.map(function(name) {
