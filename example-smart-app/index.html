@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <title>SMART on FHIR app</title>
+    <!--script src="node_modules/fhirclient/fhir-client.js"></script-->
+     <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+ </head>
+ <body>
+    <br>
+    <span id="name">Loading Patient Namr...</span></h1>
+    </br><br>
+    <span id="dob">Loading Patient DOB...</span></h1>
+    </br><br>
+    <span id="gender">Loading Patient Gender...</span></h1>
+    </br><br>
+
+    <span id="mrn">Loading Patient MRN...</span></h1>
+    </br><br>
+    
+    <script type="text/javascript">
+        function getPatientName(pt) {
+            if (pt.name) {
+                var names = pt.name.map(function(name) {
+                    return name.given.join(" ") + " " + name.family.join(" ");
+                });
+                return names.join(" / ");
+            } else {
+                return "anonymous";
+            }
+        }
+        
+        function displayPatient (pt) {
+            document.getElementById('name').innerHTML = getPatientName(pt);
+        }
+
+        function displayPatientDOB(pt) {
+            if (pt.birthDate) {
+                document.getElementById("dob").innerHTML = pt.birthDate.toString();
+            } else {
+                echo("Could not get DOB");
+            }
+        }
+        function displayPatientGender(pt) {
+            if (pt.gender) {
+                document.getElementById("gender").innerHTML = pt.gender.toString();
+            } else {
+                echo("Could not get DOB");
+            }
+        }
+        function getMRNIdentifier(patient) {
+            const identifiers = patient.identifier ? patient.identifier : [];
+            const identifier = identifiers.filter(identifier => {
+                if (!identifier.type) return false;
+                if (!identifier.type.coding) return false;
+                const v = identifier.type.coding.find(code => {
+                    return code.code === "MR";
+                });
+                return v !== undefined;
+            })[0];
+            if (identifier) return identifier.value;
+            else return undefined;
+        }
+
+        function displayPatientMRN(pt) {
+            if (pt.identifier) {
+                document.getElementById("mrn").innerHTML = getMRNIdentifier(pt);
+                echo("Could not get MRN");
+            }
+        }
+      
+        FHIR.oauth2.ready(function(smart) {
+            smart.patient.read().then(function(pt) {
+                displayPatient (pt);
+                displayPatientDOB(pt);
+                displayPatientGender(pt);
+                displayPatientMRN(pt);
+            });
+           
+        });
+
+    </script>
+ </body>
+</html>
