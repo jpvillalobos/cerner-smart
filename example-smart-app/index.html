@@ -1,40 +1,68 @@
 <!DOCTYPE html>
 <html>
  <head>
-    <title>SMART on FHIR app</title>
     <!--script src="node_modules/fhirclient/fhir-client.js"></script-->
      <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+     <link rel="stylesheet" href="src/css/example-smart-app.css">
+     <span class="title">Smart on FHIR Enabled App</span>
  </head>
  <body>
-    <br><span id="name">Loading Patient Namr...</span></h1></br>
-    <br><span id="dob">Loading Patient DOB...</span></h1></br>
-    <br><span id="gender">Loading Patient Gender...</span></h1></br>
-    <br><span id="mrn">Loading Patient MRN...</span></h1></br>
-    <hr class="solid">
-    <button type="submit" onclick="UserAction()">Get Care Orchestator ID mappings</button>
-    <br>
-    <br><span id="fhir_emr">Patient's MRN on EMR FHIR server:</span></h1></br>
-    <br><span id="CO_id">Patient's ID on Care Orchestator:</span></h1></br>
-    <hr class="solid">
-    <button type="submit" onclick="UserAction()">Retrieve Care Orchestator Information</button>
-    <br>
-    <br>
-    <object data="your_url_to_pdf" type="application/pdf">
-        <iframe src="https://docs.google.com/viewer?url=your_url_to_pdf&embedded=true#view=fit"></iframe>
-    </object>
-    <script type="text/javascript">
+    <div class="container">
+        <br>
+            <span class="label">Name:</span>
+            <span id="name">Loading Patient Name...</span></h1>
+        </br>
+        <br>
+            <span class="label">DOB:</span>
+            <span id="dob">Loading Patient DOB...</span></h1>
+        </br>
+        <br>
+            <span class="label">Gender:</span>
+            <span id="gender">Loading Patient Gender...</span></h1>
+        </br>
+        <br>
+            <span class="label">Medical Record Number (MRN):</span>
+            <span id="mrn">Loading Patient MRN...</span></h1>
+        </br>
+    </div>
 
-    function UserAction() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-             if (this.readyState == 4 && this.status == 200) {
-                 alert(this.responseText);
-             }
-        };
-        xhttp.open("POST", "Your Rest URL Here", true);
-        xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.send("Your JSON Data Here");
-    }
+    <div class="container"> 
+        <br>  
+            <button type="button" class="IDButton" onclick="getIDs()">Get IDs</button>
+        </br>
+        <br>
+            <span class="label">Internal ID:</span>
+            <span id="intID">Loading...</span></h1>
+        </br>
+        <br>
+            <span class="label">External ID:</span>
+            <span id="extID">Loading...</span></h1>
+        </br>
+    </div>
+    <br><br/>
+    <div class="container">
+        <br>   
+            <button type="button" id="COButton" class="IDButton" onclick="getCOData()" disabled="disabled">Get Care Orchestrator Data</button>
+        <br/>
+        <br>
+            <iframe id="COPDF" width="800" height="900"></iframe>
+        <br/>
+    </div>
+    
+    <script type="text/javascript">
+        function UserAction() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    alert(this.responseText);
+                }
+            };
+            xhttp.open("POST", "Your Rest URL Here", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send("Your JSON Data Here");
+        }
+        // ONE BUTTON FOR CO Data and one for ID mapping (internal + external ID)
+        //CO greyed out until ID retrieved (or message)
 
         function getPatientName(pt) {
             if (pt.name) {
@@ -95,6 +123,16 @@
             });
            
         });
+
+        function getIDs(){
+            document.getElementById("intID").innerHTML = "007";
+            document.getElementById("extID").innerHTML = "456";
+            document.getElementById("COButton").disabled = false;
+        }
+
+        function getCOData(){
+            document.getElementById("COPDF").src = "http://maketto1351.com/wp-content/uploads/2021/04/Maketto-Menu_April-2021.pdf";
+        }
 
     </script>
  </body>
