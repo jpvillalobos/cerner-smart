@@ -1,0 +1,97 @@
+th, td {
+    padding: 5px;
+    text-align: left;
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  .container {
+    margin: 20px;
+    background-color: rgba(233, 232, 232, 0.527);
+    font-family: Arial, Helvetica, sans-serif;
+    padding-bottom: 20px;
+    padding-left: 20px;
+  }
+  
+  .label {
+    color: #035ED8;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:bold
+  }
+  
+  .title {
+    color: #035ED8;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    padding-left: 10px;
+    font-size: 25px;
+  
+  }
+  
+  .IDButton {
+    background-color: #035ED8; /* Philips Blue */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+  }
+  
+  .IDButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .IDButton:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  }
+  
+  #holder {
+    display: none;
+  }
+  
+  .spinner {
+    margin: 100px auto 0;
+    width: 70px;
+    text-align: center;
+  }
+  
+  .spinner > div {
+    width: 18px;
+    height: 18px;
+    background-color: #000;
+  
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  }
+  
+  .spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+  
+  .spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+  
+  @-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+  }
+  
+  @keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 40% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
+  }
