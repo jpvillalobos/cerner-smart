@@ -3,8 +3,7 @@ var patientMRN;
 var patientCO_id;
 
 function getAuthorization() {
-    //var xhr = new XMLHttpRequest({host: "104.129.194.41", port: 10015});
-    var xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest({host: "104.129.194.41", port: 10015});
     var url = "https://angrynerds-integrationhelper.cloud.pcftest.com/utils/test-hash";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -18,7 +17,11 @@ function getAuthorization() {
             console.log(json);
         }
     };
-    var data = JSON.stringify({ "name": "testemr1user_b4775e14", "key": "43d22fc3-5899-4f21-9638-6c2d0aebc943",  "urls": ["https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patientSearch","https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patients"] });
+    var data = JSON.stringify({ "name": "testemr1user_b4775e14", "key": "43d22fc3-5899-4f21-9638-6c2d0aebc943", "urls": [
+        "https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patientSearch",
+        "https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patients",
+        "https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patients/04637a65-1701-48d5-8387-99c31fd10359",
+      ]});
     xhr.send(data);
 }
 
@@ -43,11 +46,11 @@ function patientSearch() {
 
 function getPatientData() {
     var xhr = new XMLHttpRequest();
-    var url = "https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patients/"+patientCO_id;
-    
+    var url = "https://e-rpm-a-na-integrationgateway-v1-server.cloud.pcftest.com/patients/04637a65-1701-48d5-8387-99c31fd10359";
+
     xhr.open("GET", url, true);
-    xhr.setRequestHeader("Timestamp", global_auth_object[0].Timestamp);
-    xhr.setRequestHeader("Authorization", global_auth_object[0].Authorization);
+    xhr.setRequestHeader("Timestamp", global_auth_object[2].Timestamp);
+    xhr.setRequestHeader("Authorization", global_auth_object[2].Authorization);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {
@@ -173,3 +176,40 @@ function UserAction() {
     function getCOData(){
         getPatientData();
     }
+
+// Builds the HTML Table out of myList json data from Ivy restful service.
+function buildHtmlTable(arr) {
+    var table = _table_.cloneNode(false),
+      columns = addAllColumnHeaders(arr, table);
+    for (var i = 0, maxi = arr.length; i < maxi; ++i) {
+      var tr = _tr_.cloneNode(false);
+      for (var j = 0, maxj = columns.length; j < maxj; ++j) {
+        var td = _td_.cloneNode(false);
+        cellValue = arr[i][columns[j]];
+        td.appendChild(document.createTextNode(arr[i][columns[j]] || ''));
+        tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
+    return table;
+  }
+  
+  // Adds a header row to the table and returns the set of columns.
+  // Need to do union of keys from all records as some records may not contain
+  // all records
+  function addAllColumnHeaders(arr, table) {
+    var columnSet = [],
+      tr = _tr_.cloneNode(false);
+    for (var i = 0, l = arr.length; i < l; i++) {
+      for (var key in arr[i]) {
+        if (arr[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
+          columnSet.push(key);
+          var th = _th_.cloneNode(false);
+          th.appendChild(document.createTextNode(key));
+          tr.appendChild(th);
+        }
+      }
+    }
+    table.appendChild(tr);
+    return columnSet;
+  }
