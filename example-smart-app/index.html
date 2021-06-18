@@ -5,9 +5,13 @@
      <script src='./lib/js/fhir-client-v0.1.12.js'></script>
      <script src='./lib/js/patient-interaction.js'></script>
      <link rel="stylesheet" href="./lib/css/example-smart-app.css">
-     <span class="title">Smart on FHIR Enabled App</span>
+     <style>
+        h1 {text-align: center;}
+     </style>
+
  </head>
  <body>
+    <h1 class="title">Smart on FHIR Enabled App final</h1>
     <div class="container">
         <br>
             <span class="label">Name:</span>
@@ -25,7 +29,7 @@
 
     <div class="container"> 
         <br>  
-            <button type="button" class="IDButton" onclick="getIDs()">Display ID mapping</button>
+            <button type="button" id="IDButton" class="IDButton" onclick="getIDs()" disabled="disabled">Display ID mapping</button>
         </br>
         <br>
             <span class="label">FHIR Medical Record Number (MRN):</span>
@@ -41,7 +45,7 @@
             <button type="button" id="COButton" class="IDButton" onclick="getCOData()" disabled="disabled">Get Care Orchestrator Data</button>
         <br/>
         <br>
-            <div id="CO_data"></div>
+            <pre id="CO_data"></pre>
         <br/>
     </div>
  </body>

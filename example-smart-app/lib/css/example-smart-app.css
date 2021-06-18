@@ -23,11 +23,10 @@ th, td {
   
   .title {
     color: #035ED8;
-    font-family:Arial, Helvetica, sans-serif;
-    font-weight:bold;
-    padding-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-align: center;
     font-size: 25px;
-  
   }
   
   .IDButton {
